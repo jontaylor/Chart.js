@@ -1665,7 +1665,9 @@
 				this.xLabelWidth = originalLabelWidth;
 				//Allow 3 pixels x2 padding either side for label readability
 				var xGridWidth = Math.floor(this.calculateX(1) - this.calculateX(0)) - 6;
+				var to_skip = isNumber(this.showXLabels) ? Math.ceil(this.xLabels.length/this.showXLabels) : (this.showXLabels === true) ? 1 : this.xLabels.length+1;
 
+				xGridWidth = xGridWidth * (to_skip + 1);
 				//Max label rotate should be 90 - also act as a loop counter
 				while ((this.xLabelWidth > xGridWidth && this.xLabelRotation === 0) || (this.xLabelWidth > xGridWidth && this.xLabelRotation <= 90 && this.xLabelRotation > 0)){
 					cosRotation = Math.cos(toRadians(this.xLabelRotation));
@@ -1836,7 +1838,6 @@
 					ctx.textBaseline = (isRotated) ? "middle" : "top";
 					
 					if(index % this.xLabelsSkipper === 0) {
-						ctx.fillText(label, 0, 0);
 						var sepLabels = label.split(this.pointLabelDelimiter);
 						for(var l=0;l<sepLabels.length;l++) {
 							ctx.fillText(sepLabels[l], 0, l*this.fontSize);
